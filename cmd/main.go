@@ -2,11 +2,10 @@ package main
 
 import (
 	"CinemaGCP/pkg/handler"
+	"CinemaGCP/pkg/logger"
 	"CinemaGCP/pkg/repository"
 	service2 "CinemaGCP/pkg/service"
 	"context"
-	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -26,7 +25,7 @@ func (s Server) Run(port string, handler http.Handler) error {
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 	}
-	fmt.Printf("Server start on: %s:%s\n", IP_ADDRESS, port)
+	logger.Infof("Server start on: %s:%s", IP_ADDRESS, port)
 	err := s.httpServer.ListenAndServe()
 	if err != nil {
 		return err
@@ -48,13 +47,13 @@ func main() {
 		SSLMode:  "disable",
 	})
 	if err != nil {
-		log.Fatalf("fatal to initialize db: %v", err.Error())
+		logger.Fatalf("fatal to initialize db: %v", err.Error())
 	}
 	repos := repository.NewRepository(db)
 	service := service2.NewService(repos)
 	handlers := handler.NewHandler(service)
 	srv := new(Server)
 	if err := srv.Run("8080", handlers.InitRoutes()); err != nil {
-		log.Fatalf("Server was crushed: %v", err.Error())
+		logger.Fatalf("Server was crushed: %v", err.Error())
 	}
 }

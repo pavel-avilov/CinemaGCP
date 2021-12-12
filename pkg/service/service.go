@@ -1,8 +1,13 @@
 package service
 
-import "CinemaGCP/pkg/repository"
+import (
+	"CinemaGCP/pkg/repository"
+	"CinemaGCP/pkg/src"
+	"github.com/google/uuid"
+)
 
 type Authorization interface {
+	CreateUser(user src.User) (uuid.UUID, error)
 }
 
 type Sessions interface {
@@ -14,5 +19,7 @@ type Service struct {
 }
 
 func NewService(rep *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(rep.Authorization),
+	}
 }
