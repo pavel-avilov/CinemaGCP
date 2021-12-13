@@ -1,7 +1,7 @@
 package main
 
 import (
-	"CinemaGCP/pkg/handler"
+	"CinemaGCP/pkg/controller"
 	"CinemaGCP/pkg/logger"
 	"CinemaGCP/pkg/repository"
 	service2 "CinemaGCP/pkg/service"
@@ -51,7 +51,7 @@ func main() {
 	}
 	repos := repository.NewRepository(db)
 	service := service2.NewService(repos)
-	handlers := handler.NewHandler(service)
+	handlers := controller.NewController(service)
 	srv := new(Server)
 	if err := srv.Run("8080", handlers.InitRoutes()); err != nil {
 		logger.Fatalf("Server was crushed: %v", err.Error())

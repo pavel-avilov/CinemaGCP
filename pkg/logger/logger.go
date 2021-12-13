@@ -22,7 +22,7 @@ func SetHandlers(h []Handler) {
 	handlers = h
 }
 
-// AddHandler adds a new handler to the array
+// AddHandler adds a new controller to the array
 func AddHandler(h Handler) {
 	handlers = append(handlers, h)
 }

@@ -8,6 +8,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user src.User) (uuid.UUID, error)
+	GetUser(username, password string) (src.User, error)
 }
 
 type Sessions interface {

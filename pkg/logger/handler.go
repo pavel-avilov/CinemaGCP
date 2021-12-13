@@ -1,6 +1,6 @@
 package logger
 
-// Handler interface for logger handlers that used to write the log entries to different outputs provided by particular handler.
+// Handler interface for logger handlers that used to write the log entries to different outputs provided by particular controller.
 // When messages are logged via the logger, the messages are eventually forwarded to handlers.
 type Handler interface {
 
