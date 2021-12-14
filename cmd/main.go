@@ -4,7 +4,7 @@ import (
 	"CinemaGCP/pkg/controller"
 	"CinemaGCP/pkg/logger"
 	"CinemaGCP/pkg/repository"
-	service2 "CinemaGCP/pkg/service"
+	"CinemaGCP/pkg/service"
 	"context"
 	"net/http"
 	"os"
@@ -19,7 +19,7 @@ type Server struct {
 
 func (s Server) Run(port string, handler http.Handler) error {
 	s.httpServer = &http.Server{
-		Addr:           IP_ADDRESS + ":" + port,
+		Addr:           ":" + port,
 		Handler:        handler,
 		MaxHeaderBytes: 1 << 20,
 		ReadTimeout:    10 * time.Second,
@@ -38,6 +38,8 @@ func (s Server) Shutdown(ctx context.Context) error {
 }
 
 func main() {
+	ctx := context.Background()
+	logger.SetupLogger(ctx)
 	db, err := repository.NewPostgresDB(repository.Config{
 		Host:     "34.88.5.135",
 		Port:     "5432",
@@ -50,8 +52,8 @@ func main() {
 		logger.Fatalf("fatal to initialize db: %v", err.Error())
 	}
 	repos := repository.NewRepository(db)
-	service := service2.NewService(repos)
-	handlers := controller.NewController(service)
+	serv := service.NewService(repos)
+	handlers := controller.NewController(serv)
 	srv := new(Server)
 	if err := srv.Run("8080", handlers.InitRoutes()); err != nil {
 		logger.Fatalf("Server was crushed: %v", err.Error())

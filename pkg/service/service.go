@@ -9,6 +9,7 @@ import (
 type Authorization interface {
 	CreateUser(user src.User) (uuid.UUID, error)
 	GenerateToken(username, password string) (string, error)
+	ParseToken(token string) (uuid.UUID, error)
 }
 
 type Sessions interface {

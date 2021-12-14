@@ -14,16 +14,9 @@ type Film struct {
 }
 
 type Session struct {
-	Id               uuid.UUID   `json:"id"`
-	IdFilm           uuid.UUID   `json:"film"`
-	IdHall           uuid.UUID   `json:"id_hall"`
-	ShowDate         time.Time   `json:"show_date"`
-	AvailableTickets []uuid.UUID `json:"available_tickets"`
-}
-
-type Hall struct {
-	Id          uuid.UUID `json:"id"`
-	SeatsNumber int       `json:"seats_nubmer"`
+	Id       uuid.UUID `json:"id"`
+	IdFilm   uuid.UUID `json:"film"`
+	ShowDate time.Time `json:"show_date"`
 }
 
 type Ticket struct {

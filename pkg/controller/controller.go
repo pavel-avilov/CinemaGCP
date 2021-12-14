@@ -13,27 +13,27 @@ func NewController(s *service.Service) *Controller {
 	return &Controller{service: s}
 }
 
-func (con *Controller) InitRoutes() *gin.Engine {
+func (c *Controller) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sign-in", con.signIn)
-		auth.POST("/sign-up", con.signUp)
+		auth.POST("/sign-in", c.signIn)
+		auth.POST("/sign-up", c.signUp)
 	}
 
-	api := router.Group("/api")
+	api := router.Group("/api", c.userIdentity)
 	{
 		purchase := api.Group("/buyTicket")
 		{
-			purchase.POST(":id_ticket", con.buyTicket)
+			purchase.POST(":id_ticket", c.buyTicket)
 		}
 		sess := api.Group("/sessions")
 		{
-			sess.POST("/", con.addSession)
-			sess.GET("/", con.getSessions)
-			sess.GET("/:id", con.getSession)
-			sess.DELETE("/:id", con.deleteSession)
+			sess.POST("/", c.addSession)
+			sess.GET("/", c.getSessions)
+			sess.GET("/:id", c.getSession)
+			sess.DELETE("/:id", c.deleteSession)
 		}
 	}
 	return router

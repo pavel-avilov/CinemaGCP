@@ -6,20 +6,20 @@ import (
 	"net/http"
 )
 
-func (con *Controller) signUp(c *gin.Context) {
+func (c *Controller) signUp(ctx *gin.Context) {
 	var input src.User
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+	if err := ctx.BindJSON(&input); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id, err := con.service.Authorization.CreateUser(input)
+	id, err := c.service.Authorization.CreateUser(input)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusCreated, map[string]interface{}{
+	ctx.JSON(http.StatusCreated, map[string]interface{}{
 		"id": id,
 	})
 }
@@ -29,20 +29,20 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func (con *Controller) signIn(c *gin.Context) {
+func (c *Controller) signIn(ctx *gin.Context) {
 	var input signInInput
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+	if err := ctx.BindJSON(&input); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	token, err := con.service.Authorization.GenerateToken(input.Username, input.Password)
+	token, err := c.service.Authorization.GenerateToken(input.Username, input.Password)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusCreated, map[string]interface{}{
+	ctx.JSON(http.StatusCreated, map[string]interface{}{
 		"token": token,
 	})
 }
