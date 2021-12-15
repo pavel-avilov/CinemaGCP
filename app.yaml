@@ -1,0 +1,5 @@
+runtime: go116
+main: ./cmd
+includes:
+  - credentials.yaml
+
