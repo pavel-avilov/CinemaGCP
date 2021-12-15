@@ -12,16 +12,22 @@ type Authorization interface {
 	ParseToken(token string) (uuid.UUID, error)
 }
 
+type Film interface {
+	GetAll() ([]src.Film, error)
+}
+
 type Sessions interface {
 }
 
 type Service struct {
 	Authorization
 	Sessions
+	Film
 }
 
 func NewService(rep *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(rep.Authorization),
+		Film:          NewFilmService(rep.Film),
 	}
 }

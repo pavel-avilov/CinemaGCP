@@ -28,6 +28,12 @@ func (c *Controller) InitRoutes() *gin.Engine {
 		{
 			purchase.POST(":id_ticket", c.buyTicket)
 		}
+
+		film := api.Group("/films")
+		{
+			film.GET("/", c.getFilms)
+		}
+
 		sess := api.Group("/sessions")
 		{
 			sess.POST("/", c.addSession)

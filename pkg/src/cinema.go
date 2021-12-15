@@ -1,16 +1,17 @@
 package src
 
 import (
+	"database/sql"
 	"github.com/google/uuid"
 	"time"
 )
 
 type Film struct {
-	Id          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Duration    time.Time `json:"duration"`
-	ReleaseDate time.Time `json:"date_of_published"`
+	Id          uuid.UUID      `json:"id" db:"id"`
+	Name        string         `json:"name" db:"name"`
+	Description sql.NullString `json:"description" db:"description"`
+	Duration    time.Time      `json:"duration" db:"duration"`
+	ReleaseDate sql.NullTime   `json:"release_date" db:"release_date"`
 }
 
 type Session struct {

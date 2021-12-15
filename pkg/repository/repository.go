@@ -11,16 +11,22 @@ type Authorization interface {
 	GetUser(username, password string) (src.User, error)
 }
 
+type Film interface {
+	GetAll() ([]src.Film, error)
+}
+
 type Sessions interface {
 }
 
 type Repository struct {
 	Authorization
 	Sessions
+	Film
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Film:          NewFilmPostgres(db),
 	}
 }
