@@ -1,23 +1,37 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func (c *Controller) buyTicket(ctx *gin.Context) {
 
 }
 
-func (c *Controller) addSession(ctx *gin.Context) {
-
+type getAllSessionsResponse struct {
+	Data []map[string]string
 }
 
-func (c *Controller) getSessions(ctx *gin.Context) {
+func (c *Controller) getAllSessions(ctx *gin.Context) {
+	userId, err := getUserId(ctx)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.userCallMethod(ctx, userId, "getAllSessions()")
 
+	lists, err := c.service.Session.GetAll()
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, getAllSessionsResponse{
+		Data: lists,
+	})
 }
 
 func (c *Controller) getSession(ctx *gin.Context) {
-
-}
-
-func (c *Controller) deleteSession(ctx *gin.Context) {
 
 }

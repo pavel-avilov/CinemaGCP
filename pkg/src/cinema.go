@@ -15,9 +15,9 @@ type Film struct {
 }
 
 type Session struct {
-	Id       uuid.UUID `json:"id"`
-	IdFilm   uuid.UUID `json:"film"`
-	ShowDate time.Time `json:"show_date"`
+	Id       uuid.UUID `json:"id" db:"id"`
+	IdFilm   uuid.UUID `json:"film" db:"film_id"`
+	ShowDate time.Time `json:"show_date" db:"show_date"`
 }
 
 type Ticket struct {

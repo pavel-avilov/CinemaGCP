@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"CinemaGCP/pkg/logger"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 type errorResponse struct {
@@ -10,6 +10,6 @@ type errorResponse struct {
 }
 
 func newErrorResponse(ctx *gin.Context, statusCode int, message string) {
-	log.Printf("ERROR %v \n", message)
+	logger.Error(message)
 	ctx.AbortWithStatusJSON(statusCode, errorResponse{message})
 }

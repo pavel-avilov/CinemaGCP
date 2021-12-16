@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"CinemaGCP/pkg/logger"
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"strings"
 )
@@ -10,6 +13,15 @@ const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
 )
+
+func (c *Controller) userCallMethod(ctx *gin.Context, userId uuid.UUID, methodName string) {
+	user, err := c.service.Authorization.GetUser(userId)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	logger.Infof("User: %s - call %s", user.Username, methodName)
+}
 
 func (c *Controller) userIdentity(ctx *gin.Context) {
 	header := ctx.GetHeader(authorizationHeader)
@@ -36,4 +48,18 @@ func (c *Controller) userIdentity(ctx *gin.Context) {
 	}
 
 	ctx.Set(userCtx, userId)
+}
+
+func getUserId(c *gin.Context) (uuid.UUID, error) {
+	id, ok := c.Get(userCtx)
+	if !ok {
+		return uuid.Nil, errors.New("user id not found")
+	}
+
+	idUUID, ok := id.(uuid.UUID)
+	if !ok {
+		return uuid.Nil, errors.New("user id is of invalid type")
+	}
+
+	return idUUID, nil
 }

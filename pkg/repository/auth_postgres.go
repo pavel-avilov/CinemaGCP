@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"CinemaGCP/pkg/logger"
 	"CinemaGCP/pkg/src"
 	"fmt"
 	"github.com/google/uuid"
@@ -28,9 +27,14 @@ func (ap *AuthPostgres) CreateUser(user src.User) (uuid.UUID, error) {
 
 func (ap *AuthPostgres) GetUser(username, password string) (src.User, error) {
 	var user src.User
-	logger.Info(user.Username)
 	query := fmt.Sprintf("SELECT id FROM %s WHERE username=$1 AND password_hash=$2", usersTable)
 	err := ap.db.Get(&user, query, username, password)
-	logger.Info(user.Username)
+	return user, err
+}
+
+func (ap *AuthPostgres) GetUserById(id uuid.UUID) (src.User, error) {
+	var user src.User
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", usersTable)
+	err := ap.db.Get(&user, query, id)
 	return user, err
 }

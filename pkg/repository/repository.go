@@ -2,6 +2,7 @@ package repository
 
 import (
 	"CinemaGCP/pkg/src"
+	"database/sql"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
@@ -9,18 +10,20 @@ import (
 type Authorization interface {
 	CreateUser(user src.User) (uuid.UUID, error)
 	GetUser(username, password string) (src.User, error)
+	GetUserById(id uuid.UUID) (src.User, error)
 }
 
 type Film interface {
 	GetAll() ([]src.Film, error)
 }
 
-type Sessions interface {
+type Session interface {
+	GetAll() (*sql.Rows, error)
 }
 
 type Repository struct {
 	Authorization
-	Sessions
+	Session
 	Film
 }
 
@@ -28,5 +31,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		Film:          NewFilmPostgres(db),
+		Session:       NewSessionPostgres(db),
 	}
 }

@@ -31,15 +31,13 @@ func (c *Controller) InitRoutes() *gin.Engine {
 
 		film := api.Group("/films")
 		{
-			film.GET("/", c.getFilms)
+			film.GET("/", c.getAllFilms)
 		}
 
 		sess := api.Group("/sessions")
 		{
-			sess.POST("/", c.addSession)
-			sess.GET("/", c.getSessions)
+			sess.GET("/", c.getAllSessions)
 			sess.GET("/:id", c.getSession)
-			sess.DELETE("/:id", c.deleteSession)
 		}
 	}
 	return router

@@ -38,6 +38,10 @@ func (auth *AuthService) CreateUser(user src.User) (uuid.UUID, error) {
 	return auth.rep.CreateUser(user)
 }
 
+func (auth *AuthService) GetUser(userId uuid.UUID) (user src.User, err error) {
+	return auth.rep.GetUserById(userId)
+}
+
 func (auth *AuthService) GenerateToken(username, password string) (string, error) {
 	user, err := auth.rep.GetUser(username, generatePasswordHash(password))
 	if err != nil {
