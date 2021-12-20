@@ -22,10 +22,15 @@ type Session interface {
 	GetSessionById(uuid.UUID) (*sql.Rows, error)
 }
 
+type Ticket interface {
+	Buy(userId, sessionId uuid.UUID, place int) error
+}
+
 type Repository struct {
 	Authorization
 	Session
 	Film
+	Ticket
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -33,5 +38,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		Film:          NewFilmPostgres(db),
 		Session:       NewSessionPostgres(db),
+		Ticket:        NewTicketPostgres(db),
 	}
 }

@@ -24,9 +24,9 @@ func (c *Controller) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api", c.userIdentity)
 	{
-		purchase := api.Group("/buyTicket")
+		purchase := api.Group("/tickets")
 		{
-			purchase.POST(":id_ticket", c.buyTicket)
+			purchase.POST("/buy", c.buyTicket)
 		}
 
 		film := api.Group("/films")

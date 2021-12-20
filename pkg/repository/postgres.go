@@ -10,6 +10,7 @@ const (
 	usersTable   = "users"
 	filmTable    = "film"
 	sessionTable = "session"
+	ticketTable  = "user_session"
 )
 
 type Config struct {

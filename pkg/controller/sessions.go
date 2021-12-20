@@ -7,10 +7,6 @@ import (
 	"net/http"
 )
 
-func (c *Controller) buyTicket(ctx *gin.Context) {
-
-}
-
 type getAllSessionsResponse struct {
 	Data interface{}
 }

@@ -22,10 +22,15 @@ type Session interface {
 	GetSessionById(uuid.UUID) (SessionInfo, error)
 }
 
+type Ticket interface {
+	Buy(userId, sessionId uuid.UUID, place int) error
+}
+
 type Service struct {
 	Authorization
 	Session
 	Film
+	Ticket
 }
 
 func NewService(rep *repository.Repository) *Service {
@@ -33,5 +38,6 @@ func NewService(rep *repository.Repository) *Service {
 		Authorization: NewAuthService(rep.Authorization),
 		Film:          NewFilmService(rep.Film),
 		Session:       NewSessionService(rep.Session),
+		Ticket:        NewTicketService(rep.Ticket),
 	}
 }
