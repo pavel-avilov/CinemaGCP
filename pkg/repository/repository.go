@@ -19,6 +19,7 @@ type Film interface {
 
 type Session interface {
 	GetAll() (*sql.Rows, error)
+	GetSessionById(uuid.UUID) (*sql.Rows, error)
 }
 
 type Repository struct {

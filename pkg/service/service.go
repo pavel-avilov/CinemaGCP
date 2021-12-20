@@ -7,10 +7,10 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user src.User) (uuid.UUID, error)
+	CreateUser(src.User) (uuid.UUID, error)
 	GenerateToken(username, password string) (string, error)
-	ParseToken(token string) (uuid.UUID, error)
-	GetUser(userId uuid.UUID) (user src.User, err error)
+	ParseToken(string) (uuid.UUID, error)
+	GetUser(uuid.UUID) (user src.User, err error)
 }
 
 type Film interface {
@@ -18,7 +18,8 @@ type Film interface {
 }
 
 type Session interface {
-	GetAll() ([]map[string]string, error)
+	GetAll() ([]sessionInfoList, error)
+	GetSessionById(uuid.UUID) (SessionInfo, error)
 }
 
 type Service struct {
